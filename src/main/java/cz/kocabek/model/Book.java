@@ -1,5 +1,7 @@
 package cz.kocabek.model;
 
+import java.util.Objects;
+
 public class Book {
     private Long id;
     private String isbn;
@@ -64,4 +66,36 @@ public class Book {
     public void setType(String type) {
         this.type = type;
     }
+
+    @Override
+    public String toString() {
+        return "Book{" +
+               "id=" + id +
+               ", isbn='" + isbn + '\'' +
+               ", title='" + title + '\'' +
+               ", author='" + author + '\'' +
+               ", publisher='" + publisher + '\'' +
+               ", type='" + type + '\'' +
+               '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Book book = (Book) o;
+        return getId().equals(book.getId()) && Objects.equals(getIsbn(), book.getIsbn()) && Objects.equals(getTitle(), book.getTitle()) && Objects.equals(getAuthor(), book.getAuthor()) && Objects.equals(getPublisher(), book.getPublisher()) && Objects.equals(getType(), book.getType());
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getId().hashCode();
+        result = 31 * result + Objects.hashCode(getIsbn());
+        result = 31 * result + Objects.hashCode(getTitle());
+        result = 31 * result + Objects.hashCode(getAuthor());
+        result = 31 * result + Objects.hashCode(getPublisher());
+        result = 31 * result + Objects.hashCode(getType());
+        return result;
+    }
+
 }
