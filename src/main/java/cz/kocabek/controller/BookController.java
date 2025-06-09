@@ -1,7 +1,7 @@
 package cz.kocabek.controller;
 
+import cz.kocabek.Service.BookService;
 import cz.kocabek.model.Book;
-import cz.kocabek.repository.MemoryBookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,27 +14,21 @@ import java.util.List;
 @RequestMapping("/books")
 public class BookController {
 
-    private final MemoryBookRepository memoryBookService;
+    private final BookService bookService;
 
     @Autowired
-    public BookController(MemoryBookRepository memoryBookService) {
-        this.memoryBookService = memoryBookService;
+    public BookController(BookService bookService) {
+        this.bookService = bookService;
     }
-
-//    @RequestMapping("/helloBook")
-//    public Book helloBook() {
-//        return new Book(1L, "9788324631766", "Thinking in Java",
-//                "Bruce Eckel", "Helion", "programming");
-//    }
 
     @GetMapping("")
     public List<Book> getBooks() {
-        return memoryBookService.getBooks();
+        return bookService.getBooks();
     }
 
     @GetMapping("/{id}")
     public Book getBookById(@PathVariable("id") int id) {
-        return memoryBookService.getBookById((long) id);
+        return bookService.getBook((long) id);
     }
 
 }

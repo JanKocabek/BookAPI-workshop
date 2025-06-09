@@ -24,11 +24,11 @@ public class MemoryBookRepository {
         books.put(10L, new Book(10L, "978-0-15-601219-5", "Life of Pi", "Yann Martel", "Mariner Books", "Adventure"));
     }
 
-    public List<Book> getBooks() {
+    public List<Book> findBooks() {
         return List.copyOf(books.values());
     }
 
-    public Book getBookById(Long id) {
+    public Book findBookById(Long id) {
         return books.get(id);
     }
 }
