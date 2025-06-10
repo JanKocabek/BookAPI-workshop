@@ -4,6 +4,7 @@ import cz.kocabek.model.Book;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.TreeMap;
 
 @Repository
@@ -28,7 +29,10 @@ public class MemoryBookRepository {
         return List.copyOf(books.values());
     }
 
-    public Book findBookById(Long id) {
-        return books.get(id);
+    public Optional<Book> findBookById(Long id) {
+        return Optional.ofNullable(books.get(id));
     }
+//    public Book findBookById(Long id) {
+//        return books.get(id);
+//    }
 }
