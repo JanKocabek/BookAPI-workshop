@@ -44,6 +44,8 @@ public class MemoryBookRepository {
         book.setId(lastId + 1);
         lastId++;
         books.put(book.getId(), book);
+        isbnLookup.put(book.getIsbn(), book.getId());
+        //System.out.println("booksIsbn: " + isbnLookup);
         return book;
     }
 
