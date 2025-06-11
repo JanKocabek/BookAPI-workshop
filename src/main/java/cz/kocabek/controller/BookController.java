@@ -6,6 +6,7 @@ import cz.kocabek.model.Book;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.List;
 
@@ -33,7 +34,8 @@ public class BookController {
 
     @PostMapping(value = "", consumes = "application/json", produces = "application/json")
     public ResponseEntity<Book> addBook(@RequestBody Book book) {
-        return ResponseEntity.ok(bookService.addBook(book));
+        Book adedBook= bookService.addBook(book);
+        return ResponseEntity.created(ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(adedBook.getId()).toUri()).body(adedBook);
     }
 
     @PutMapping(value = "", consumes = "application/json", produces = "application/json")
