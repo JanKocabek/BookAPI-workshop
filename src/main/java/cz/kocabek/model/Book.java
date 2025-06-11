@@ -1,5 +1,7 @@
 package cz.kocabek.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 import java.util.Objects;
 
 public class Book {
@@ -9,6 +11,11 @@ public class Book {
     private String author;
     private String publisher;
     private String type;
+
+    @JsonCreator
+    public Book() {
+
+    }
 
     public Book(Long id, String isbn, String title, String author, String publisher, String type) {
         this.id = id;

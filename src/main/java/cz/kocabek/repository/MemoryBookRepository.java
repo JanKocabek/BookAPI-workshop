@@ -10,7 +10,8 @@ import java.util.TreeMap;
 @Repository
 public class MemoryBookRepository {
 
-   private final TreeMap<Long, Book> books = new TreeMap<>();
+    private final TreeMap<Long, Book> books = new TreeMap<>();
+    private Long lastId;
 
     MemoryBookRepository() {
         books.put(1L, new Book(1L, "978-3-16-148410-0", "The Great Gatsby", "F. Scott Fitzgerald", "Scribner", "Fiction"));
@@ -23,6 +24,7 @@ public class MemoryBookRepository {
         books.put(8L, new Book(8L, "978-0-670-82162-4", "The Road", "Cormac McCarthy", "Knopf", "Post-Apocalyptic"));
         books.put(9L, new Book(9L, "978-0-06-085052-4", "Brave New World", "Aldous Huxley", "Harper Perennial", "Dystopian"));
         books.put(10L, new Book(10L, "978-0-15-601219-5", "Life of Pi", "Yann Martel", "Mariner Books", "Adventure"));
+        lastId = books.lastKey();
     }
 
     public List<Book> findBooks() {
@@ -32,7 +34,11 @@ public class MemoryBookRepository {
     public Optional<Book> findBookById(Long id) {
         return Optional.ofNullable(books.get(id));
     }
-//    public Book findBookById(Long id) {
-//        return books.get(id);
-//    }
+
+    public Book addBook(Book book) {
+        book.setId(lastId+1);
+        lastId++;
+        books.put(book.getId(), book);
+        return book;
+    }
 }
