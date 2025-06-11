@@ -41,4 +41,21 @@ public class MemoryBookRepository {
         books.put(book.getId(), book);
         return book;
     }
+
+    public Optional<Book> updateBook(Book book) {
+        Optional<Book> bookOptional = Optional.empty();
+        if (books.containsKey(book.getId())) {
+            books.put(book.getId(), book);
+            bookOptional =Optional.of(book);
+        }
+        return bookOptional;
+    }
+
+    public Boolean deleteBook(Long id) {
+        if (books.containsKey(id)) {
+            books.remove(id);
+            return true;
+        }
+        return false;
+    }
 }

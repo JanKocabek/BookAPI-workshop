@@ -26,9 +26,15 @@ public class BookService {
         return memoryBookRepository.findBookById(id);
     }
 
-    public void addBook(Book book) {
-        memoryBookRepository.addBook(book);
+    public Book addBook(Book book) {
+        return memoryBookRepository.addBook(book);
     }
 
+    public Optional<Book> updateBook(Book book) {
+        return memoryBookRepository.updateBook(book);
+    }
+    public Boolean deleteBook(Long id) {
+        return memoryBookRepository.deleteBook(id);
+    }
 }
 
