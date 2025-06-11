@@ -15,4 +15,9 @@ public class MyGlobalExceptionHandler {
         return ErrorResponse.create(ex, HttpStatus.NOT_FOUND, ex.getMessage());
     }
 
+    @ResponseStatus(HttpStatus.CONFLICT)
+    @ExceptionHandler(DuplicatedRecordException.class)
+    public ErrorResponse handleDuplicatedRecordException(DuplicatedRecordException ex) {
+        return ErrorResponse.create(ex, HttpStatus.CONFLICT, ex.getMessage());
+    }
 }
