@@ -1,16 +1,16 @@
 package cz.kocabek.repository;
 
+import cz.kocabek.exception.DuplicatedRecordException;
 import cz.kocabek.model.Book;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.TreeMap;
+import java.util.*;
 
 @Repository
 public class MemoryBookRepository {
 
     private final TreeMap<Long, Book> books = new TreeMap<>();
+    private final Map<String,Long> isbnLookup = new HashMap<>();
     private Long lastId;
 
     MemoryBookRepository() {
@@ -25,7 +25,11 @@ public class MemoryBookRepository {
         books.put(9L, new Book(9L, "978-0-06-085052-4", "Brave New World", "Aldous Huxley", "Harper Perennial", "Dystopian"));
         books.put(10L, new Book(10L, "978-0-15-601219-5", "Life of Pi", "Yann Martel", "Mariner Books", "Adventure"));
         lastId = books.lastKey();
+        for (Book book : books.values()) {
+            isbnLookup.put(book.getIsbn(), book.getId());
+        }
     }
+
 
     public List<Book> findBooks() {
         return List.copyOf(books.values());
@@ -36,7 +40,8 @@ public class MemoryBookRepository {
     }
 
     public Book addBook(Book book) {
-        book.setId(lastId+1);
+        if(checkISBN(book.getIsbn()))  throw new DuplicatedRecordException("Duplicated ISBN");
+        book.setId(lastId + 1);
         lastId++;
         books.put(book.getId(), book);
         return book;
@@ -46,7 +51,7 @@ public class MemoryBookRepository {
         Optional<Book> bookOptional = Optional.empty();
         if (books.containsKey(book.getId())) {
             books.put(book.getId(), book);
-            bookOptional =Optional.of(book);
+            bookOptional = Optional.of(book);
         }
         return bookOptional;
     }
@@ -57,5 +62,9 @@ public class MemoryBookRepository {
             return true;
         }
         return false;
+    }
+
+    private boolean checkISBN(String isbn){
+        return isbnLookup.containsKey(isbn);
     }
 }
