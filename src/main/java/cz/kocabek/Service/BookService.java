@@ -1,12 +1,13 @@
 package cz.kocabek.Service;
 
+import cz.kocabek.dto.BookDTO;
 import cz.kocabek.model.Book;
 import cz.kocabek.repository.MemoryBookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class BookService {
@@ -22,8 +23,11 @@ public class BookService {
         return memoryBookRepository.findBooks();
     }
 
-    public Optional<Book> getBook(Long id) {
-        return memoryBookRepository.findBookById(id);
+    public BookDTO getBook(Long id) {
+        final String BASE_URI = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
+        final var book = memoryBookRepository.findBookById(id);
+        return new BookDTO(book, id, BASE_URI);
+
     }
 
     public Book addBook(Book book) {
