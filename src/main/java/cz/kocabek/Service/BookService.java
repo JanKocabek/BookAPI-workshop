@@ -33,8 +33,9 @@ public class BookService {
     public Book updateBook(Book book) {
         return memoryBookRepository.updateBook(book);
     }
-    public Boolean deleteBook(Long id) {
-        return memoryBookRepository.deleteBook(id);
+
+    public void deleteBook(Long id) {
+        memoryBookRepository.deleteBook(id);
     }
 }
 

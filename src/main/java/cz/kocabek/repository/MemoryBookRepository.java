@@ -59,12 +59,10 @@ public class MemoryBookRepository {
         return book;
     }
 
-    public Boolean deleteBook(Long id) {
-        if (books.containsKey(id)) {
-            books.remove(id);
-            return true;
-        }
-        return false;
+    public void deleteBook(Long id) {
+        if (!books.containsKey(id))
+            throw new BookNotFoundException("Book with ID " + id + " not found and can't be deleted");
+        books.remove(id);
     }
 
     private boolean checkISBN(String isbn) {
