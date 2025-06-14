@@ -36,8 +36,10 @@ public class MemoryBookRepository {
         return List.copyOf(books.values());
     }
 
-    public Optional<Book> findBookById(Long id) {
-        return Optional.ofNullable(books.get(id));
+    public Book findBookById(Long id) {
+        if (!books.containsKey(id))
+            throw new BookNotFoundException("Book with id: " + id + " not found");
+        return books.get(id);
     }
 
     public Book addBook(Book book) {
