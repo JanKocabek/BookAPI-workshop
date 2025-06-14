@@ -16,11 +16,6 @@ public class BooksDTO {
     @JsonView(View.Book.class)
     private final int count;
 
-    public BooksDTO() {
-        this.bookDTOS = null;
-        this.count = 0;
-    }
-
     public BooksDTO(List<Book> books, String uri) {
         this.bookDTOS = wrapBooksToDTO(books, uri);
         this.count = books.size();

@@ -20,7 +20,6 @@ public class BookService {
 
     public BooksDTO getBooks() {
         if (memoryBookRepository.findBooks().isEmpty()) {
-            return new BooksDTO();
         }
         final String BASE_URI = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
         return new BooksDTO(memoryBookRepository.findBooks(), BASE_URI);
