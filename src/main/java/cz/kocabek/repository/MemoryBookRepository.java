@@ -25,7 +25,7 @@ public class MemoryBookRepository {
         books.put(8L, new Book(8L, "978-0-670-82162-4", "The Road", "Cormac McCarthy", "Knopf", "Post-Apocalyptic"));
         books.put(9L, new Book(9L, "978-0-06-085052-4", "Brave New World", "Aldous Huxley", "Harper Perennial", "Dystopian"));
         books.put(10L, new Book(10L, "978-0-15-601219-5", "Life of Pi", "Yann Martel", "Mariner Books", "Adventure"));
-        lastId = books.lastKey();
+        lastId = books.isEmpty() ? 0 : books.lastKey();
         for (Book book : books.values()) {
             isbnLookup.put(book.getIsbn(), book.getId());
         }
