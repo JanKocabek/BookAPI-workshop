@@ -23,7 +23,7 @@ public class BooksDTO {
 
 
     private List<BookDTO> wrapBooksToDTO(List<Book> books, String uri) {
-        return books.stream().map(book -> new BookDTO(book, book.getId(), uri)).toList();
+        return books.stream().map(book -> new BookDTO(book, uri)).toList();
     }
 
     public List<BookDTO> getBookDTOS() {

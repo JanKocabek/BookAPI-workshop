@@ -17,9 +17,9 @@ public class BookDTO {
     private final String selfUri;
 
     @JsonCreator
-    public BookDTO(Book book, Long id, String uri) {
+    public BookDTO(Book book, String uri) {
         this.book = book;
-        this.selfUri = uri + "/books/" + id;
+        this.selfUri = uri + "/books/" + book.getId();
     }
 
     public Book getBook() {

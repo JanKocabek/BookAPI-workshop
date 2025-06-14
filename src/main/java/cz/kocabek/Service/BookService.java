@@ -26,14 +26,14 @@ public class BookService {
     public BookDTO getBook(Long id) {
         final String BASE_URI = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
         final var book = memoryBookRepository.findBookById(id);
-        return new BookDTO(book, id, BASE_URI);
+        return new BookDTO(book,  BASE_URI);
 
     }
 
     public BookDTO addBook(Book book) {
         final String BASE_URI = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
-        final var updateBook = memoryBookRepository.addBook(book);
-        return new BookDTO(updateBook, updateBook.getId(), BASE_URI);
+        final var addedBook = memoryBookRepository.addBook(book);
+        return new BookDTO(addedBook,  BASE_URI);
     }
 
     public Book updateBook(Book book) {
