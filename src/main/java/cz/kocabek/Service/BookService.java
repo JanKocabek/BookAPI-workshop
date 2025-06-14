@@ -33,8 +33,10 @@ public class BookService {
 
     }
 
-    public Book addBook(Book book) {
-        return memoryBookRepository.addBook(book);
+    public BookDTO addBook(Book book) {
+        final String BASE_URI = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
+        final var updateBook = memoryBookRepository.addBook(book);
+        return new BookDTO(updateBook, updateBook.getId(), BASE_URI);
     }
 
     public Book updateBook(Book book) {
