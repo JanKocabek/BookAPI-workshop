@@ -30,7 +30,7 @@ public class BookService {
         return memoryBookRepository.addBook(book);
     }
 
-    public Optional<Book> updateBook(Book book) {
+    public Book updateBook(Book book) {
         return memoryBookRepository.updateBook(book);
     }
     public Boolean deleteBook(Long id) {

@@ -1,5 +1,6 @@
 package cz.kocabek.repository;
 
+import cz.kocabek.exception.BookNotFoundException;
 import cz.kocabek.exception.DuplicatedRecordException;
 import cz.kocabek.model.Book;
 import org.springframework.stereotype.Repository;
@@ -10,7 +11,7 @@ import java.util.*;
 public class MemoryBookRepository {
 
     private final TreeMap<Long, Book> books = new TreeMap<>();
-    private final Map<String,Long> isbnLookup = new HashMap<>();
+    private final Map<String, Long> isbnLookup = new HashMap<>();
     private Long lastId;
 
     MemoryBookRepository() {
@@ -40,7 +41,7 @@ public class MemoryBookRepository {
     }
 
     public Book addBook(Book book) {
-        if(checkISBN(book.getIsbn()))  throw new DuplicatedRecordException("Duplicated ISBN");
+        if (checkISBN(book.getIsbn())) throw new DuplicatedRecordException("Duplicated ISBN");
         book.setId(lastId + 1);
         lastId++;
         books.put(book.getId(), book);
@@ -49,13 +50,13 @@ public class MemoryBookRepository {
         return book;
     }
 
-    public Optional<Book> updateBook(Book book) {
-        Optional<Book> bookOptional = Optional.empty();
-        if (books.containsKey(book.getId())) {
-            books.put(book.getId(), book);
-            bookOptional = Optional.of(book);
-        }
-        return bookOptional;
+    public Book updateBook(Book book) {
+        if (!books.containsKey(book.getId()))
+            throw new BookNotFoundException("Book with id: " + book.getId() + " not found and can't be updated");
+        if (checkISBN(book.getIsbn()) && !book.getIsbn().equals(books.get(book.getId()).getIsbn()))
+            throw new DuplicatedRecordException("This ISBN is already taken, book can't be updated");
+        books.put(book.getId(), book);
+        return book;
     }
 
     public Boolean deleteBook(Long id) {
@@ -66,7 +67,7 @@ public class MemoryBookRepository {
         return false;
     }
 
-    private boolean checkISBN(String isbn){
+    private boolean checkISBN(String isbn) {
         return isbnLookup.containsKey(isbn);
     }
 }
