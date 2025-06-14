@@ -2,13 +2,17 @@ package cz.kocabek.dto;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonView;
 import cz.kocabek.model.Book;
 import org.springframework.http.HttpStatus;
 
 
 public class BookDTO {
+    @JsonView( View.BookWithStatus.class)
     private int status;
+    @JsonView(View.Book.class)
     private final Book book;
+    @JsonView(View.Book.class)
     @JsonProperty("self")
     private final String selfUri;
 

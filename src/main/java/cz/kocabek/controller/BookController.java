@@ -1,15 +1,16 @@
 package cz.kocabek.controller;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import cz.kocabek.Service.BookService;
 import cz.kocabek.dto.BookDTO;
+import cz.kocabek.dto.BooksDTO;
+import cz.kocabek.dto.View;
 import cz.kocabek.model.Book;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/books")
@@ -22,11 +23,13 @@ public class BookController {
         this.bookService = bookService;
     }
 
+    @JsonView(View.Book.class)
     @GetMapping("")
-    public List<Book> getBooks() {
-        return bookService.getBooks();
+    public BooksDTO getBooks() {
+        return bookService.getBooks().withStatus(HttpStatus.OK);
     }
 
+    @JsonView(View.BookWithStatus.class)
     @GetMapping("/{id}")
     public ResponseEntity<BookDTO> getBookById(@PathVariable("id") Long id) {
         return ResponseEntity.ok(bookService.getBook(id).withStatus(HttpStatus.OK));

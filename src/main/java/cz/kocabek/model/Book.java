@@ -1,18 +1,25 @@
 package cz.kocabek.model;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonView;
+import cz.kocabek.dto.View;
 
 import java.util.Objects;
 
 public class Book {
+    @JsonView(View.Book.class)
     private Long id;
+    @JsonView(View.Book.class)
     private String isbn;
+    @JsonView(View.Book.class)
     private String title;
+    @JsonView(View.Book.class)
     private String author;
+    @JsonView(View.Book.class)
     private String publisher;
+    @JsonView(View.Book.class)
     private String type;
 
-    @JsonCreator
+
     public Book() {
 
     }
