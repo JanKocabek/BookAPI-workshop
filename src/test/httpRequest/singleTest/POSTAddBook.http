@@ -4,7 +4,7 @@ POST http://localhost:8080/books
 Content-Type: application/json
 
 {
-  "isbn": "978-3-16-148410-0",
+  "isbn": "34321",
   "title": "Thinking in Java",
   "publisher": "Helion",
   "type": "programming",
