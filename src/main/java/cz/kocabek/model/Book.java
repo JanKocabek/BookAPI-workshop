@@ -2,6 +2,7 @@ package cz.kocabek.model;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import cz.kocabek.dto.View;
+import jakarta.validation.constraints.Pattern;
 
 import java.util.Objects;
 
@@ -9,6 +10,7 @@ public class Book {
     @JsonView(View.Book.class)
     private Long id;
     @JsonView(View.Book.class)
+    @Pattern(regexp = "^(?=(?:\\D*\\d){10}(?:(?:\\D*\\d){3})?$)[\\d-]+$",message = "ISBN must be 10  or 13 digits long and can contain only digits and dashes")
     private String isbn;
     @JsonView(View.Book.class)
     private String title;
