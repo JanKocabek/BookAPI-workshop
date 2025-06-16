@@ -25,7 +25,7 @@ public class MemoryBookRepository {
         books.put(8L, new Book(8L, "978-0-670-82162-4", "The Road", "Cormac McCarthy", "Knopf", "Post-Apocalyptic"));
         books.put(9L, new Book(9L, "978-0-06-085052-4", "Brave New World", "Aldous Huxley", "Harper Perennial", "Dystopian"));
         books.put(10L, new Book(10L, "978-0-15-601219-5", "Life of Pi", "Yann Martel", "Mariner Books", "Adventure"));
-        lastId = books.isEmpty() ? 0 : books.lastKey();
+        lastId = books.isEmpty() ? 0L : books.lastKey();
         for (Book book : books.values()) {
             isbnLookup.put(book.getIsbn(), book.getId());
         }
@@ -43,7 +43,8 @@ public class MemoryBookRepository {
     }
 
     public Book addBook(Book book) {
-        if (checkISBN(book.getIsbn())) throw new DuplicatedRecordException("Duplicated ISBN");
+        if (getBookIdByIsbn(book.getIsbn()).isPresent())
+            throw new DuplicatedRecordException("Given ISBN: %s is already taken, book can't be added".formatted(book.getIsbn()));
         book.setId(lastId + 1);
         lastId++;
         books.put(book.getId(), book);
@@ -55,8 +56,14 @@ public class MemoryBookRepository {
     public Book updateBook(Book book) {
         if (!books.containsKey(book.getId()))
             throw new BookNotFoundException("Book with id: " + book.getId() + " not found and can't be updated");
-        if (checkISBN(book.getIsbn()) && !book.getIsbn().equals(books.get(book.getId()).getIsbn()))
-            throw new DuplicatedRecordException("This ISBN is already taken, book can't be updated");
+        //check if
+        boolean isbnChanged = !book.getId().equals(isbnLookup.get(book.getIsbn()));
+        if (isbnChanged) {
+            if (getBookIdByIsbn(book.getIsbn()).isPresent())
+                throw new DuplicatedRecordException("ISBN: %s is already taken, book can't be updated".formatted(book.getIsbn()));
+            isbnLookup.remove(book.getIsbn());
+            isbnLookup.put(book.getIsbn(), book.getId());
+        }
         books.put(book.getId(), book);
         return book;
     }
@@ -67,7 +74,10 @@ public class MemoryBookRepository {
         books.remove(id);
     }
 
-    private boolean checkISBN(String isbn) {
-        return isbnLookup.containsKey(isbn);
+    private Optional<Long> getBookIdByIsbn(String isbn) {
+        if (isbnLookup.containsKey(isbn)) {
+            return Optional.of(isbnLookup.get(isbn));
+        }
+        return Optional.empty();
     }
 }
