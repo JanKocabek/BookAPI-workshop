@@ -46,4 +46,14 @@ public class BooksDTO {
         this.status = status.value();
         return this;
     }
+
+
+    @Override
+    public String toString() {
+        return "BooksDTO{" +
+               "status=" + status +
+               ", count=" + count +
+               ", bookDTOS=" + bookDTOS +
+               '}';
+    }
 }

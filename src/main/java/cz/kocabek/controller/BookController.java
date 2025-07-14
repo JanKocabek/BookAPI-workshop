@@ -38,14 +38,13 @@ public class BookController {
 
     @PostMapping(value = "", consumes = "application/json", produces = "application/json")
     public ResponseEntity<BookDTO> addBook(@Valid @RequestBody Book book) {
-        BookDTO addedBook = bookService.addBook(book).withStatus(HttpStatus.CREATED);
+       final BookDTO addedBook = bookService.addBook(book).withStatus(HttpStatus.CREATED);
         return ResponseEntity.created(ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(addedBook.getBook().getId()).toUri()).body(addedBook);
     }
 
     @PutMapping(value = "", consumes = "application/json", produces = "application/json")
     public ResponseEntity<BookDTO> updateBook(@Valid @RequestBody Book book) {
         return ResponseEntity.ok(bookService.updateBook(book).withStatus(HttpStatus.OK));
-
     }
 
     @DeleteMapping("/{id}")
